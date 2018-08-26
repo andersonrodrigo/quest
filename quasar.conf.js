@@ -1,9 +1,11 @@
 // Configuration for your app
 
 module.exports = function (ctx) {
+  
   return {
     // app plugins (/src/plugins)
     plugins: [
+     
     ],
     css: [
       'app.styl'
@@ -48,7 +50,17 @@ module.exports = function (ctx) {
         'QItem',
         'QItemMain',
         'QItemSide',
-        'QUploader'
+        'QUploader',
+        'QInput',
+        'QSelect',
+        'QDialog',
+        'QRadio',
+        'QModal',
+        'QField',
+        'QModalLayout',
+        'QSearch'
+       
+        
       ],
       directives: [
         'Ripple'
