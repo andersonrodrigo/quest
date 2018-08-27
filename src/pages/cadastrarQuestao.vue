@@ -128,12 +128,12 @@ export default {
   },
   computed: {
     urlSalvarArquivo(){
-      return  "http://localhost:8070/api/questao/salvarImagemQuestao";
+      return  "http://192.168.0.11:8070/api/questao/salvarImagemQuestao";
     }
   },
   mounted () {
     let me = this
-    Vue.http.get('http://localhost:8070/api/modulo/getAllModulos').then(response => {
+    Vue.http.get('http://192.168.0.11:8070/api/modulo/getAllModulos').then(response => {
        
         if (response) {
           for (var i = 0; i < response.body.length; i++) {
@@ -190,7 +190,7 @@ export default {
         resposta: me.resposta,
         tipoQuestao: me.tipoResposta
       }
-      Vue.http.post('http://localhost:8070/api/questao/salvar', parametros, {}).then(response => {
+      Vue.http.post('http://192.168.0.11:8070/api/questao/salvar', parametros, {}).then(response => {
         
           if (response && response.body && response.body.id){
               me.abreAlertaSalvo = true

@@ -96,7 +96,7 @@ export default {
    },
    mounted () {
     let me = this
-    Vue.http.get('http://localhost:8070/api/modulo/getAllModulos').then(response => {
+    Vue.http.get('http://192.168.0.11:8070/api/modulo/getAllModulos').then(response => {
       
         if (response) {
           for (var i = 0; i < response.body.length; i++) {
@@ -112,7 +112,7 @@ export default {
   methods: {
     buscarQuestao (){
     
-        Vue.http.get('http://localhost:8070/api/questao/getQuestaoByModulo/' + this.moduloSelecionado ).then(response => {
+        Vue.http.get('http://192.168.0.11:8070/api/questao/getQuestaoByModulo/' + this.moduloSelecionado ).then(response => {
        
         if (response) {
           for (var i = 0; i < response.body.length; i++) {
