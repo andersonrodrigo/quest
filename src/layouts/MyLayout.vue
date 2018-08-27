@@ -35,11 +35,11 @@
         <q-list-header>Essential Links</q-list-header>
         <q-item @click.native="openPage('/cadastrarQuestao')">
           <q-item-side icon="school" />
-          <q-item-main label="Cadastrar Questao" sublabel="quasar-framework.org" />
+          <q-item-main label="Cadastrar Questao" sublabel="Envie uma nova questão" />
         </q-item>
         <q-item @click.native="openPage('/listarQuestoes')">
           <q-item-side icon="code" />
-          <q-item-main label="Responder Questões" sublabel="github.com/quasarframework" />
+          <q-item-main label="Responder Questões" sublabel="Vamos testar seus conhecimentos" />
         </q-item>
       
         
