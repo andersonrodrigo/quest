@@ -1,14 +1,21 @@
 
 const routes = [
+  { path: '/', component: () => import('pages/Login.vue') , meta: { auth: false } },
+  
   {
-    path: '/',
+    path: '/home',
     component: () => import('layouts/MyLayout.vue'),
+    meta: { auth: true },
     children: [
-      { path: '', component: () => import('pages/Index.vue') },
-      { path: '/cadastrarQuestao', component: () => import('pages/cadastrarQuestao.vue') },
-      { path: '/listarQuestoes', component: () => import('pages/listarQuestoes.vue') }
-    ]
+      { path: '', component: () => import('pages/Index.vue') , meta: { auth: true }},
+      { path: '/cadastrarQuestao', component: () => import('pages/cadastrarQuestao.vue'), meta: { auth: true } },
+      { path: '/listarQuestoes', component: () => import('pages/listarQuestoes.vue') , meta: { auth: true }}
+     
+     ]
   }
+  
+   
+ 
 ]
 
 // Always leave this as last one

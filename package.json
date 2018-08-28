@@ -10,7 +10,8 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "vue-resource": "^1.5.1"
+    "vue-resource": "^1.5.1",
+    "@websanova/vue-auth": "^2.21.0-beta"
   },
   "devDependencies": {
     "quasar-cli": "^0.17.0",
