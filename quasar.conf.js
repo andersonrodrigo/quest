@@ -22,6 +22,9 @@ module.exports = function (ctx) {
     ],
     supportIE: false,
     build: {
+      env: ctx.dev
+      ? require('./config/dev.env')
+      : require('./config/prod.env'),
       scopeHoisting: true,
       // vueRouterMode: 'history',
       // vueCompiler: true,
@@ -70,7 +73,9 @@ module.exports = function (ctx) {
       ],
       // Quasar plugins
       plugins: [
-        'Notify'
+        'Notify',
+        'Loading',
+        'Dialog'
       ]
       // iconSet: ctx.theme.mat ? 'material-icons' : 'ionicons'
       // i18n: 'de' // Quasar language

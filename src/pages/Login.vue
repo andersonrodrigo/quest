@@ -41,18 +41,61 @@
                   @click.native="login"
                   class="text-black full-width">Entrar</q-btn>
               </div>
-
+          <q-btn
+                color="primary"
+                @click.native="modalCadastraUsuario = true"
+                label="Novo Cadastro"
+              />
                
             </div>
           </div>
         </div>
       </div>
+
+
+<q-modal v-model="modalCadastraUsuario" no-backdrop-dismiss :content-css="{minWidth: '80vw', minHeight: '80vh'}">
+  <q-modal-layout>
+    <q-toolbar slot="header">
+       
+      <q-toolbar-title>
+        Novo Usuario
+      </q-toolbar-title>
+    </q-toolbar>
+    <q-toolbar slot="footer">
+      <q-toolbar-title>
+        
+      </q-toolbar-title>
+    </q-toolbar>
+
+    <div class="layout-padding">
+     
+   <q-input v-model="loginCadastro" type="text" float-label="Login" />
+   <q-input v-model="senhaCadastro" type="password" float-label="Senha" />
+      <q-btn
+      color="primary"
+      @click.native="modalCadastraUsuario = false"
+      label="Cancelar"
+    />
+    <q-btn
+      color="primary" style="margin-left:20px"
+      @click="salvarNovoUsuario"
+      label="Salvar"
+    />
+    </div>
+  </q-modal-layout>
+</q-modal>
+
+
   </q-layout>
 </q-layout>		
  
 </template>
 
 <script>
+import Vue from 'vue'
+import { Dialog } from 'quasar'
+ import VueResource from 'vue-resource'
+ 
  
 export default {
   
@@ -64,7 +107,10 @@ export default {
       username: '',
       password: '',
       firstLogin: true,
-      isCordovaApp: !!window.cordova
+      isCordovaApp: !!window.cordova,
+      modalCadastraUsuario: false,
+      senhaCadastro: '',
+      loginCadastro: ''
     }
   },
   mounted () {
@@ -79,21 +125,38 @@ export default {
     }
   },
   methods: {
-    
-    login () {
-      Loading.show({
-        spinner: QSpinnerGears,
-        message: 'Carregando...',
-        messageColor: 'blue',
-        spinnerSize: 250, // in pixels blabla
-        spinnerColor: 'white',
-        customClass: 'bg-primary'
-      })
-      if (this.isCordovaApp) {
-        if (this.firstLogin) {
-          this.username = this.username.charAt(0).toLowerCase() + this.username.slice(1)
-        }
+    salvarNovoUsuario (){
+      let me = this
+      let parametros = {
+        login: me.loginCadastro,
+        senha: me.senhaCadastro
       }
+       
+       Vue.http.post(process.env.URL_API  + '/auth/salvarUsuario', parametros).then(response => {
+       
+        if (response && response.body && response.body == 'OK'){
+                this.modalCadastraUsuario = false
+                  Dialog.create({
+                    title: 'Alerta',
+                    message: 'Salvo com sucesso'
+                  })
+              }else{
+            Dialog.create({
+                title: 'Alerta',
+                message: response.body
+              })
+              }
+  }, response => {
+    Dialog.create({
+                    title: 'Alerta',
+                    message: 'Erro ao cadastrar'
+                  })
+  });
+       
+ 
+    },
+    login () {
+       
       this.$auth.login({
         params: {
           username: this.username,
@@ -103,20 +166,15 @@ export default {
           this.snackbar = false
           this.loading = false
           localStorage.setItem('USER_QUEST', this.username)
-           
-          Loading.hide()
-        },
+         },
         error: function (e) {
           let mensagemFinal = ''
-          
-              Loading.hide()
-               
-                mensagemFinal = 'Usuário ou Senha Inválidos'
+          mensagemFinal = 'Usuário ou Senha Inválidos'
             
-              Dialog.create({
-                title: 'Alerta',
-                message: mensagemFinal
-              })
+          Dialog.create({
+            title: 'Alerta',
+            message: mensagemFinal
+          })
               
             },
        rememberMe: true,

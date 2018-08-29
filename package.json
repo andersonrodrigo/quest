@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "vue-resource": "^1.5.1",
-    "@websanova/vue-auth": "^2.21.0-beta"
+    "@websanova/vue-auth": "^2.21.14-beta",
+    "axios": "^0.18.0",
+    "vue-axios": "^2.0.2"
   },
   "devDependencies": {
     "quasar-cli": "^0.17.0",

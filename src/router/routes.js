@@ -1,15 +1,18 @@
 
 const routes = [
-  { path: '/', component: () => import('pages/Login.vue') , meta: { auth: false } },
   
+  
+  { name: 'login', path: '/login', component: () => import('pages/login'), meta: { requiresAuth: false } },
+
+  { name: 'logout', path: '/logout', component: () => import('pages/logout'), meta: { requiresAuth: false } },
   {
-    path: '/home',
+    path: '/',
     component: () => import('layouts/MyLayout.vue'),
-    meta: { auth: true },
+    meta: { requiresAuth: true },
     children: [
-      { path: '', component: () => import('pages/Index.vue') , meta: { auth: true }},
-      { path: '/cadastrarQuestao', component: () => import('pages/cadastrarQuestao.vue'), meta: { auth: true } },
-      { path: '/listarQuestoes', component: () => import('pages/listarQuestoes.vue') , meta: { auth: true }}
+      { path: '', component: () => import('pages/Index.vue') , meta: { requiresAuth: true }},
+      { path: '/cadastrarQuestao', component: () => import('pages/cadastrarQuestao.vue'), meta: { requiresAuth: true } },
+      { path: '/listarQuestoes', component: () => import('pages/listarQuestoes.vue') , meta: { requiresAuth: true }}
      
      ]
   }

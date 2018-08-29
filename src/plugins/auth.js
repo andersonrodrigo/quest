@@ -1,30 +1,79 @@
-// import something here
+import store from 'src/store/index'
+import { Dialog } from 'quasar'
 
-// leave the export, even if you don't use it
-import VueResource from 'vue-resource'
-import VueRouter from 'vue-router'
+export default ({ Vue, router }) => {
+  let toLogout = function (next, to) {
+    next({
+      path: '/logout',
+      query: {
+        redirect: to.fullPath
+      }
+    })
+  }
 
-export default ({ app, router, Vue }) => {
-  Vue.router = new VueRouter;
-  Vue.use(VueRouter)
-  Vue.use(VueResource)
-  process.env.CONTEXTO = 'http://localhost:8070/api'
- 
-  let urlLogin = process.env.CONTEXTO + '/auth/token'
-  let urlUser = process.env.CONTEXTO + '/auth/user'
-  let urlRefresh = process.env.CONTEXTO + '/auth/refresh'
-  let refreshData = {url: urlRefresh, method: 'POST', enabled: true}
-   
-  Vue.use(require('@websanova/vue-auth'), {
-    auth: require('@websanova/vue-auth/drivers/auth/bearer.js'),
-    http: require('@websanova/vue-auth/drivers/http/vue-resource.1.x.js'),
-    router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
-    rolesVar: 'roles',
-    loginData: {url: urlLogin, method: 'POST', redirect: '/', fetchUser: true},
-    fetchData: {url: urlUser, method: 'GET'},
-    refreshData: refreshData,
-    parseUserData: (data) => data
+  let logout = function (next, to) {
+    clearInterval(store.state.user.keepAlive)
+
+    Dialog.create({
+      title: 'Sessão expirada.',
+      message: ''
+    }).then(() => {
+      toLogout(next, to)
+    }).catch(() => {
+      toLogout(next, to)
+    })
+  }
+
+  let initKeepAlive = function (next, to) {
+    clearInterval(store.state.user.keepAlive)
+
+    var varKeepAlive = setInterval(function () {
+      var keepAlive = new Promise(function (resolve, reject) {
+        Vue.axios.post(process.env.URL_API + '/auth/keepAlive')
+          .then((response) => {
+            resolve(response)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+
+      keepAlive.then((response) => {
+        if (!response.data) {
+          logout(next, to)
+        }
+      }).catch(erro => {
+        // logout(next, to)
+      })
+    }, 15000)
+
+    store.commit('user/setKeepAlive', varKeepAlive)
+  }
+
+  router.beforeEach((to, from, next) => {
+    let token = localStorage.getItem('default_auth_token')
+    if (to.meta.requiresAuth && !token) {
+      toLogout(next, to)
+    } else if (to.meta.requiresAuth && token) {
+      var getUser = new Promise(function (resolve, reject) {
+        Vue.axios.get(process.env.URL_API + `/auth/user`)
+          .then((response) => {
+            resolve(response.data)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+
+      Promise.all([getUser]).then(function (values) {
+        store.commit('user/setUser', values[0])
+        initKeepAlive(next, to)
+        next()
+      }).catch(erro => {
+        logout(next, to)
+      })
+    } else {
+      next()
+    }
   })
-
- 
 }
