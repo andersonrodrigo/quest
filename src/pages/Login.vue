@@ -68,7 +68,7 @@
     </q-toolbar>
 
     <div class="layout-padding">
-     
+      <q-input v-model="nomeCadastro" type="text" float-label="Nome" />
    <q-input v-model="loginCadastro" type="text" float-label="Login" />
    <q-input v-model="senhaCadastro" type="password" float-label="Senha" />
       <q-btn
@@ -110,7 +110,8 @@ export default {
       isCordovaApp: !!window.cordova,
       modalCadastraUsuario: false,
       senhaCadastro: '',
-      loginCadastro: ''
+      loginCadastro: '',
+      nomeCadastro: ''
     }
   },
   mounted () {
@@ -127,14 +128,39 @@ export default {
   methods: {
     salvarNovoUsuario (){
       let me = this
+     if (me.loginCadastro == ''){
+        Dialog.create({
+                    title: 'Alerta',
+                    message: 'Informe o login.'
+                  })
+       return
+     }
+     if (me.senhaCadastro == ''){
+        Dialog.create({
+                    title: 'Alerta',
+                    message: 'Informe a senha.'
+                  })
+       return
+     }
+     if (me.nomeCadastro == ''){
+        Dialog.create({
+                    title: 'Alerta',
+                    message: 'Informe o Nome.'
+                  })
+       return
+     }
       let parametros = {
         login: me.loginCadastro,
-        senha: me.senhaCadastro
+        senha: me.senhaCadastro,
+        nome: me.nomeCadastro
       }
        
-       Vue.http.post(process.env.URL_API  + '/auth/salvarUsuario', parametros).then(response => {
-       
-        if (response && response.body && response.body == 'OK'){
+       this.$http.post(process.env.URL_API  + '/auth/salvarUsuario', parametros).then(response => {
+     
+        if (response && response.data && response.data == 'OK'){
+                me.loginCadastro = ''
+                me.senhaCadastro = ''
+                me.nomeCadastro = ''
                 this.modalCadastraUsuario = false
                   Dialog.create({
                     title: 'Alerta',
@@ -143,7 +169,7 @@ export default {
               }else{
             Dialog.create({
                 title: 'Alerta',
-                message: response.body
+                message: response.data
               })
               }
   }, response => {

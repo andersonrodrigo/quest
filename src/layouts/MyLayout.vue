@@ -41,6 +41,11 @@
           <q-item-side icon="code" />
           <q-item-main label="Responder Questões" sublabel="Vamos testar seus conhecimentos" />
         </q-item>
+
+          <q-item @click.native="openPage('/pontuacao')">
+          <q-item-side icon="code" />
+          <q-item-main label="Pontuação Atual" sublabel="Já Acertou quanto ate agora?" />
+        </q-item>
       
         
       </q-list>

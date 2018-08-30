@@ -12,8 +12,9 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/Index.vue') , meta: { requiresAuth: true }},
       { path: '/cadastrarQuestao', component: () => import('pages/cadastrarQuestao.vue'), meta: { requiresAuth: true } },
-      { path: '/listarQuestoes', component: () => import('pages/listarQuestoes.vue') , meta: { requiresAuth: true }}
-     
+      { path: '/listarQuestoes', component: () => import('pages/listarQuestoes.vue') , meta: { requiresAuth: true }},
+      { path: '/pontuacao', component: () => import('pages/pontuacao.vue') , meta: { requiresAuth: true }}
+      
      ]
   }
   

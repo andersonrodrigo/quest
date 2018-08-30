@@ -36,7 +36,7 @@
 <BR/>
  <q-btn  
      color="primary"
-    		@click="$router.push('/listarQuestoes')">Desistir</q-btn>
+    		@click="$router.push('/')">Desistir</q-btn>
     	<q-btn  
       color="primary"
       style="margin-left: 15px;" @click="responder()">Responder</q-btn>
@@ -73,12 +73,9 @@
 </template>
 
 <script>
-
-import VueResource from 'vue-resource'
-import Vue from 'vue'
- 
- Vue.use(VueResource)
- Vue.http.options.root = process.env.CONTEXTO
+ import Vue from 'vue'
+import { Dialog } from 'quasar'
+ import VueResource from 'vue-resource'
 export default {
   // name: 'PageName',
    data () {
@@ -91,37 +88,49 @@ export default {
       tipoPergunta: null,
       respostaCerta: null,
       mensagemAlerta: null,
-      abreAlertaSalvo: null
+      abreAlertaSalvo: null,
+      questao: null
     }
    },
    mounted () {
     let me = this
-    Vue.http.get(process.env.URL_API  + '/modulo/getAllModulos').then(response => {
-      
-        if (response) {
-          for (var i = 0; i < response.body.length; i++) {
-            var item = response.body[i];
-            me.selectOptions.push({label: item.nome, value: item.id, item: item});
-          }
-        }
-  }, response => {
    
-  });
   
+
+ me.$http.get(process.env.URL_API +  '/modulo/getAllModulos')
+          .then((response) => {
+           
+             if (response) {
+                for (var i = 0; i < response.data.length; i++) {
+                  var item = response.data[i];
+                  me.selectOptions.push({label: item.nome, value: item.id, item: item});
+                }
+              }
+          })
+          .catch(error => {
+                Dialog.create({
+                    title: 'Alerta',
+                    message: 'Nenhum Topico Cadatrado....'
+                  })
+          })
+
+
   }, 
   methods: {
     buscarQuestao (){
-    
-        Vue.http.get(process.env.URL_API  + '/questao/getQuestaoByModulo/' + this.moduloSelecionado ).then(response => {
+    let me = this
+         me.$http.get(process.env.URL_API  + '/questao/getQuestaoByModulo/' + this.moduloSelecionado ).then(response => {
        
         if (response) {
-          for (var i = 0; i < response.body.length; i++) {
-            var item = response.body[i];
+          
+            let indice = Math.floor((Math.random() * response.data.length) + 1);
+            var item = response.data[indice];
+            this.questao = item;
             this.imagem = 'data:image/png;base64,' + item.imagemQuestao.content
             this.tipoPergunta = item.tipoQuestao
             this.respostaCerta = item.resposta
-            break
-          }
+           
+          
         }
   }, response => {
    
@@ -129,7 +138,14 @@ export default {
      
     },
     responder(){
-      debugger
+      let me = this
+      if (this.resposta == ''){
+         Dialog.create({
+                    title: 'Alerta',
+                    message: 'Selecione uma Resposta Primeiro...'
+                  })
+        return
+      }
       if (this.resposta == this.respostaCerta){
         this.mensagemAlerta='Resposta Certa'
       }else{
@@ -138,7 +154,31 @@ export default {
       this.abreAlertaSalvo = true;
     },
     acaoOk (){
-      this.abreAlertaSalvo = false
+       let me = this
+       let usuario = JSON.parse(localStorage.getItem('user'));
+      
+      me.abreAlertaSalvo = false;
+      let param = {
+        usuario:{id: usuario[0].id},
+        resposta: me.resposta,
+        respostaCerta: me.respostaCerta,
+        questao : {id: me.questao.id}
+      }
+      me.$http.post(process.env.URL_API  + '/questao/respostaUsuario/', param).then(response => {
+      
+        if (response && response.data) {
+         
+            var item = response.data;
+            this.questao = item;
+            this.imagem = 'data:image/png;base64,' + item.imagemQuestao.content
+            this.tipoPergunta = item.tipoQuestao
+            this.respostaCerta = item.resposta
+            this.resposta = '';
+           
+        }
+  }, response => {
+   
+  });
      }
   }
 }

@@ -107,8 +107,8 @@
 import VueResource from 'vue-resource'
 import Vue from 'vue'
  
- Vue.use(VueResource)
- Vue.http.options.root = process.env.CONTEXTO
+ 
+ 
 export default {
   // name: 'PageName',
    data () {
@@ -133,11 +133,11 @@ export default {
   },
   mounted () {
     let me = this
-    Vue.http.get(process.env.URL_API  + '/modulo/getAllModulos').then(response => {
+    me.$http.get(process.env.URL_API  + '/modulo/getAllModulos').then(response => {
        
         if (response) {
-          for (var i = 0; i < response.body.length; i++) {
-            var item = response.body[i];
+          for (var i = 0; i < response.data.length; i++) {
+            var item = response.data[i];
             me.selectOptions.push({label: item.nome, value: item.id, item: item});
           }
         }
@@ -145,6 +145,22 @@ export default {
    
   });
   
+  },
+  created () {
+    if (!XMLHttpRequest.overrided) {
+      let token = this.$auth.token();
+      let open = XMLHttpRequest.prototype.open;
+      XMLHttpRequest.prototype.open = function(...args) {
+        let response = open.apply(this, args);
+        let url = args[1];
+        if (url.indexOf('questao/salvarImagemQuestao') > -1
+             ) {
+          this.setRequestHeader('Authorization', 'Bearer ' + token);
+        }
+        return response;
+      };
+    };
+    XMLHttpRequest.overrided = true;
   },
   methods: {
     acaoOk (){
@@ -190,9 +206,9 @@ export default {
         resposta: me.resposta,
         tipoQuestao: me.tipoResposta
       }
-      Vue.http.post(process.env.URL_API  + '/questao/salvar', parametros, {}).then(response => {
+      me.$http.post(process.env.URL_API  + '/questao/salvar', parametros, {}).then(response => {
         
-          if (response && response.body && response.body.id){
+          if (response && response.data && response.data.id){
               me.abreAlertaSalvo = true
               me.mensagemAlerta = 'Salvo com sucesso'
               me.redireciona = true

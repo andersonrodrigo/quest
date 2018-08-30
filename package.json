@@ -10,10 +10,11 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "vue-resource": "^1.5.1",
     "@websanova/vue-auth": "^2.21.14-beta",
     "axios": "^0.18.0",
-    "vue-axios": "^2.0.2"
+    "vue-axios": "^2.0.2",
+    "vue-resource": "^1.5.1",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "quasar-cli": "^0.17.0",
