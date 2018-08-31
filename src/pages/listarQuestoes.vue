@@ -29,8 +29,8 @@
 <q-field v-if="tipoPergunta == 'V'"
     label="Qual é a resposta Certa?"
     >
-      <q-radio v-model="resposta" v-if="tipoResposta == 'V'" val="V" label="Verdadeiro" />
-      <q-radio v-model="resposta" v-if="tipoResposta == 'V'" val="F" label="Falso" />
+      <q-radio v-model="resposta"  val="V" label="Verdadeiro" />
+      <q-radio v-model="resposta"   val="F" label="Falso" />
 
 </q-field>
 <BR/>
@@ -124,6 +124,9 @@ export default {
         if (response) {
           
             let indice = Math.floor((Math.random() * response.data.length) + 1);
+            if (response.data.length == 1){
+              indice = 0;
+            }
             var item = response.data[indice];
             this.questao = item;
             this.imagem = 'data:image/png;base64,' + item.imagemQuestao.content

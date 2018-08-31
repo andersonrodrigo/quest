@@ -64,8 +64,13 @@ module.exports = function (ctx) {
         'QModal',
         'QField',
         'QModalLayout',
-        'QSearch'
-       
+        'QSearch',
+        'QTable',
+        'QTh',
+        'QTr',
+        'QTd',
+        'QTableColumns',
+        'QItemTile'
         
       ],
       directives: [

@@ -17,8 +17,8 @@
         </q-btn>
 
         <q-toolbar-title>
-          Quasar App
-          <div slot="subtitle">Running on Quasar v{{ $q.version }}</div>
+         Ensino Inteligente
+          <div slot="subtitle"> </div>
         </q-toolbar-title>
       </q-toolbar>
     </q-layout-header>
@@ -32,7 +32,11 @@
         link
         inset-delimiter
       >
-        <q-list-header>Essential Links</q-list-header>
+        <q-list-header>Menu</q-list-header>
+        <q-item @click.native="openPage('/cadastrarModulo')">
+          <q-item-side icon="book" />
+          <q-item-main label="Cadastrar Modulo" sublabel="Cadastro de Modulos" />
+        </q-item>
         <q-item @click.native="openPage('/cadastrarQuestao')">
           <q-item-side icon="school" />
           <q-item-main label="Cadastrar Questao" sublabel="Envie uma nova questão" />
@@ -43,8 +47,14 @@
         </q-item>
 
           <q-item @click.native="openPage('/pontuacao')">
-          <q-item-side icon="code" />
-          <q-item-main label="Pontuação Atual" sublabel="Já Acertou quanto ate agora?" />
+          <q-item-side icon="shop" />
+          <q-item-main label="Pontuação Atual" sublabel="Já Acertou quanto ate agora?"   />
+        </q-item>
+
+
+        <q-item @click.native="logout">
+          <q-item-side icon="logout" />
+          <q-item-main label="Logout" sublabel="Sair" />
         </q-item>
       
         
@@ -70,6 +80,17 @@ export default {
   methods: {
     openPage (url){
       this.$router.push(url)
+    },
+    logout (){
+    
+      this.$auth.logout({
+        makeRequest: true,
+        params: {}, // data: {} in axios
+        success: function () {},
+        error: function () {},
+        redirect: '/login'
+        
+    });
     }
   }
 }

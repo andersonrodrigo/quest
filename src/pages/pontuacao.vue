@@ -27,7 +27,7 @@ export default {
    mounted () {
     let me = this
     let usuario = JSON.parse(localStorage.getItem('user'));
- 
+ debugger
 me.usuarioLogado = usuario[0];
 let param = {
     id: me.usuarioLogado.id
