@@ -70,7 +70,7 @@ module.exports = function (ctx) {
         'QTr',
         'QTd',
         'QTableColumns',
-        'QItemTile'
+        'QItemTile' 
         
       ],
       directives: [

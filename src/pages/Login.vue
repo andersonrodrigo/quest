@@ -184,7 +184,7 @@ export default {
     login () {
        
       this.$auth.login({
-        params: {
+        data: {
           username: this.username,
           password: this.password
         },

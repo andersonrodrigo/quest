@@ -12,24 +12,24 @@
     />
 </div>
 <div v-if="imagem">
-  <img slot="media" :src="imagem" style="width: 30%;">
+  <img slot="media" :src="imagem" @click="poeZoom" :style="styleImage">
   <BR/>
    <BR/>
 <q-field v-if="tipoPergunta == 'M'"
     label="Qual é a resposta Certa?"
     >
-      <q-radio v-model="resposta"  val="A" label="A" />
-      <q-radio v-model="resposta"   val="B" label="B" />
-      <q-radio v-model="resposta"   val="C" label="C" />
-      <q-radio v-model="resposta"   val="D" label="D" />
-      <q-radio v-model="resposta"   val="E" label="E" />
+      <q-radio v-model="resposta"  val="A" label="A" /><BR/>
+      <q-radio v-model="resposta"   val="B" label="B" /><BR/>
+      <q-radio v-model="resposta"   val="C" label="C" /><BR/>
+      <q-radio v-model="resposta"   val="D" label="D" /><BR/>
+      <q-radio v-model="resposta"   val="E" label="E" /><BR/>
 
 </q-field>
  <BR/>
 <q-field v-if="tipoPergunta == 'V'"
     label="Qual é a resposta Certa?"
     >
-      <q-radio v-model="resposta"  val="V" label="Verdadeiro" />
+      <q-radio v-model="resposta"  val="V" label="Verdadeiro" /><BR/>
       <q-radio v-model="resposta"   val="F" label="Falso" />
 
 </q-field>
@@ -89,7 +89,9 @@ export default {
       respostaCerta: null,
       mensagemAlerta: null,
       abreAlertaSalvo: null,
-      questao: null
+      questao: null,
+      zoom: false,
+      styleImage: 'width: 30%;'
     }
    },
    mounted () {
@@ -117,6 +119,14 @@ export default {
 
   }, 
   methods: {
+    poeZoom(){
+      this.zoom = !this.zoom
+      if (this.zoom){
+         this.styleImage = 'width: 100%;'
+      }else{
+        this.styleImage = 'width: 30%;'
+      }
+    },
     buscarQuestao (){
     let me = this
          me.$http.get(process.env.URL_API  + '/questao/getQuestaoByModulo/' + this.moduloSelecionado ).then(response => {
