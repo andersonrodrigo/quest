@@ -91,6 +91,7 @@ export default {
         redirect: '/login'
         
     });
+    this.openPage('/login')
     }
   }
 }

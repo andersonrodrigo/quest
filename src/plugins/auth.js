@@ -46,7 +46,7 @@ export default ({ Vue, router }) => {
        
         next()
       }).catch(erro => {
-        
+        toLogout();
       })
     } else {
       next()

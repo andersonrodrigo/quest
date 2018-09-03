@@ -124,6 +124,7 @@ export default {
     if (username !== undefined || username !== null) {
       this.username = username
     }
+ 
   },
   methods: {
     salvarNovoUsuario (){

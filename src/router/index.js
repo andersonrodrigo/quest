@@ -37,12 +37,12 @@ Vue.use(require('@websanova/vue-auth'), {
   http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
   router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
   rolesVar: 'roles',
-  loginData: {url: urlLogin, method: 'POST',redirect: '/home', fetchUser: true},
+  loginData: {url: urlLogin, method: 'POST',redirect: '/', fetchUser: false},
   fetchData: {url: urlUser, method: 'GET'},
-  refreshData: {url: urlRefresh, method: 'POST', interval: 25},
+  refreshData: {url: urlRefresh, method: 'POST', enabled: false},
   parseUserData: (data) => data
 })
-
+ 
 Vue.axios.defaults.baseURL = urlApi
 
 export default Router
