@@ -29,8 +29,8 @@
 <q-field v-if="tipoPergunta == 'V'"
     label="Qual é a resposta Certa?"
     >
-      <q-radio v-model="resposta"  val="V" label="Verdadeiro" /><BR/>
-      <q-radio v-model="resposta"   val="F" label="Falso" />
+      <q-radio v-model="resposta"  val="V" label="Certo" /><BR/>
+      <q-radio v-model="resposta"   val="F" label="Errado" />
 
 </q-field>
 <BR/>
@@ -162,7 +162,15 @@ export default {
       if (this.resposta == this.respostaCerta){
         this.mensagemAlerta='Resposta Certa'
       }else{
-          this.mensagemAlerta='Resposta Errada... A certa é ' + this.respostaCerta;
+        let respCerta = '';
+        if (this.respostaCerta == 'V'){
+          respCerta = 'Certo'
+        }else if (this.respostaCerta == 'F'){
+          respCerta = 'Errado'
+        }else{
+          respCerta = this.respostaCerta
+        }
+        this.mensagemAlerta='Resposta Errada... A certa é ' + respCerta;
       }
       this.abreAlertaSalvo = true;
     },

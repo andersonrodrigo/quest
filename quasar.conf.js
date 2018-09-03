@@ -26,6 +26,7 @@ module.exports = function (ctx) {
       ? require('./config/dev.env')
       : require('./config/prod.env'),
       scopeHoisting: true,
+      distDir: 'cordova/www',
       // vueRouterMode: 'history',
       // vueCompiler: true,
       // gzip: true,
