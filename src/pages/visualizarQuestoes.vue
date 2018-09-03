@@ -11,63 +11,36 @@
      :options="selectOptions"
     />
 </div>
-<div v-if="imagem">
-  <img :src="imagem" @click="poeZoom" :style="styleImage">
-  <BR/>
-   <BR/>
-<q-field v-if="tipoPergunta == 'M'"
-    label="Qual é a resposta Certa?"
-    >
-      <q-radio v-model="resposta"  val="A" label="A" /><BR/>
-      <q-radio v-model="resposta"   val="B" label="B" /><BR/>
-      <q-radio v-model="resposta"   val="C" label="C" /><BR/>
-      <q-radio v-model="resposta"   val="D" label="D" /><BR/>
-      <q-radio v-model="resposta"   val="E" label="E" /><BR/>
+<div v-if="moduloSelecionado && listaQuestoes.length > 0">
 
-</q-field>
- <BR/>
-<q-field v-if="tipoPergunta == 'V'"
-    label="Qual é a resposta Certa?"
-    >
-      <q-radio v-model="resposta"  val="V" label="Certo" /><BR/>
-      <q-radio v-model="resposta"   val="F" label="Errado" />
 
-</q-field>
-<BR/>
- <q-btn  
-     color="primary"
-    		@click="$router.push('/')">Desistir</q-btn>
-    	<q-btn  
-      color="primary"
-      style="margin-left: 15px;" @click="responder()">Responder</q-btn>
+<q-card inline style="width: 500px" v-for="item in listaQuestoes" :key="item.id">
+  <q-card-media>
+   <img slot="media" :src="item.imagem" @click="poeZoom" :style="styleImage"/> 
+  </q-card-media>
+  <q-card-title>
+    
+    Questao {{item.id}}
+    
+  </q-card-title>
+  <q-card-main>
+    <p>Tipo Resposta:</p> {{item.tipoQuestao}}
+    <p>Resposta Certa:</p> {{item.resposta}}
+  </q-card-main>
+  <q-card-separator />
+  <q-card-actions>
+    <q-btn flat round dense icon="delete" />
+  </q-card-actions>
+</q-card>
+
+
+
+
 </div>
 
 
-<q-modal v-model="abreAlertaSalvo" :content-css="{minWidth: '80vw', minHeight: '80vh'}">
-  <q-modal-layout>
-    <q-toolbar slot="header">
-       
-      <q-toolbar-title>
-        Atenção
-      </q-toolbar-title>
-    </q-toolbar>
 
-    <q-toolbar slot="footer">
-      <q-toolbar-title>
-        
-      </q-toolbar-title>
-    </q-toolbar>
 
-    <div class="layout-padding">
-     <p>{{mensagemAlerta}}</p>
-    <q-btn
-      color="primary"
-      @click="acaoOk"
-      label="OK"
-    />
-    </div>
-  </q-modal-layout>
-</q-modal>
 
   </q-page>
 </template>
@@ -91,7 +64,8 @@ export default {
       abreAlertaSalvo: null,
       questao: null,
       zoom: false,
-      styleImage: 'width: 30%;'
+      styleImage: 'width: 30%;',
+      listaQuestoes: []
     }
    },
    mounted () {
@@ -130,21 +104,16 @@ export default {
     buscarQuestao (){
     let me = this
          me.$http.get(process.env.URL_API  + '/questao/getQuestaoByModulo/' + this.moduloSelecionado ).then(response => {
-       
         if (response) {
-          
-            let indice = Math.floor((Math.random() * response.data.length) + 1);
-            if (response.data.length == 1){
-              indice = 0;
-            }
-            var item = response.data[indice];
-            this.questao = item;
-            this.imagem = 'data:image/png;base64,' + item.imagemQuestao.content
-            this.tipoPergunta = item.tipoQuestao
-            this.respostaCerta = item.resposta
-           
-          
+           for (var i = 0; i < response.data.length; i++) {
+                  var item = response.data[i];
+                   me.listaQuestoes.push({id: item.id,
+                    resposta: item.resposta,
+                    tipoQuestao: item.tipoQuestao,
+                    imagem: 'data:image/png;base64,' + item.imagemQuestao.content});
+                }
         }
+        console.log(me.listaQuestoes)
   }, response => {
    
   });

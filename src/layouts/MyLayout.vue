@@ -37,6 +37,10 @@
           <q-item-side icon="book" />
           <q-item-main label="Cadastrar Modulo" sublabel="Cadastro de Modulos" />
         </q-item>
+         <q-item @click.native="openPage('/visualizarQuestoes')">
+          <q-item-side icon="note" />
+          <q-item-main label="Visualizar Questões" sublabel="Manutenção de questões já cadastradas" />
+        </q-item>
         <q-item @click.native="openPage('/cadastrarQuestao')">
           <q-item-side icon="school" />
           <q-item-main label="Cadastrar Questao" sublabel="Envie uma nova questão" />
