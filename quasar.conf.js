@@ -26,6 +26,7 @@ module.exports = function (ctx) {
       ? require('./config/dev.env')
       : require('./config/prod.env'),
       scopeHoisting: true,
+      distDir: 'cordova/www',
       // vueRouterMode: 'history',
       // vueCompiler: true,
       // gzip: true,
@@ -70,7 +71,13 @@ module.exports = function (ctx) {
         'QTr',
         'QTd',
         'QTableColumns',
-        'QItemTile' 
+        'QItemTile',
+        'QCard',
+        'QCardTitle',
+        'QCardMain',
+        'QCardMedia',
+        'QCardSeparator',
+        'QCardActions'
         
       ],
       directives: [

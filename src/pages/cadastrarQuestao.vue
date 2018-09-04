@@ -22,26 +22,26 @@
 <q-field
     label="Tipo Questao"
      >
-      <q-radio v-model="tipoResposta" val="M" label="Multipla" />
-      <q-radio v-model="tipoResposta" val="V" label="Verdadeiro/Falso" />
+      <q-radio v-model="tipoResposta" val="M" label="Multipla" /><BR/>
+      <q-radio v-model="tipoResposta" val="V" label="Certo/Errado" />
 </q-field>
  <BR/>
 <q-field v-if="tipoResposta == 'M'"
     label="Resposta Certa"
     >
-      <q-radio v-model="resposta"  val="A" label="A" />
-      <q-radio v-model="resposta"   val="B" label="B" />
-      <q-radio v-model="resposta"   val="C" label="C" />
-      <q-radio v-model="resposta"   val="D" label="D" />
-      <q-radio v-model="resposta"   val="E" label="E" />
+      <q-radio v-model="resposta"  val="A" label="A" /><BR/>
+      <q-radio v-model="resposta"   val="B" label="B" /><BR/>
+      <q-radio v-model="resposta"   val="C" label="C" /><BR/>
+      <q-radio v-model="resposta"   val="D" label="D" /><BR/>
+      <q-radio v-model="resposta"   val="E" label="E" /><BR/>
 
 </q-field>
  <BR/>
 <q-field v-if="tipoResposta == 'V'"
     label="Resposta Certa"
     >
-      <q-radio v-model="resposta" v-if="tipoResposta == 'V'" val="V" label="Verdadeiro" />
-      <q-radio v-model="resposta" v-if="tipoResposta == 'V'" val="F" label="Falso" />
+      <q-radio v-model="resposta" v-if="tipoResposta == 'V'" val="V" label="Certo" /><BR/>
+      <q-radio v-model="resposta" v-if="tipoResposta == 'V'" val="F" label="Errado" />
 
 </q-field>
 
@@ -53,7 +53,7 @@
      <q-btn  
    
     color="primary"
-    		@click="$router.push('/cadastrarQuestao')">CANCELAR</q-btn>
+    		@click="$router.push('/')">CANCELAR</q-btn>
     	<q-btn  
       
     
