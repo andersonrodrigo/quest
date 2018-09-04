@@ -16,7 +16,7 @@
 
 <q-card inline style="width: 500px" v-for="item in listaQuestoes" :key="item.id">
   <q-card-media>
-   <img slot="media" :src="item.imagem" @click="poeZoom" :style="styleImage"/> 
+   <img  :src="item.imagem" @click="poeZoom" :style="styleImage"/> 
   </q-card-media>
   <q-card-title>
     
@@ -29,7 +29,7 @@
   </q-card-main>
   <q-card-separator />
   <q-card-actions>
-    <q-btn flat round dense icon="delete" />
+    <q-btn flat round dense icon="delete" @click="deleteQuestao(item)"/>
   </q-card-actions>
 </q-card>
 
@@ -100,6 +100,9 @@ export default {
       }else{
         this.styleImage = 'width: 30%;'
       }
+    },
+    deleteImage(item){
+console.log(item)
     },
     buscarQuestao (){
     let me = this

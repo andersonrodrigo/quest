@@ -40,7 +40,7 @@ Vue.use(require('@websanova/vue-auth'), {
  
   loginData: {url: urlLogin, method: 'POST',redirect: '/', fetchUser: false},
  
-  fetchData: {url: urlUser, method: 'GET'},
+  fetchData: {url: urlUser, method: 'GET', enabled: false},
   refreshData: {url: urlRefresh, method: 'POST', enabled: false},
   parseUserData: (data) => data
 })

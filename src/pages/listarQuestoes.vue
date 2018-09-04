@@ -129,21 +129,24 @@ export default {
     },
     buscarQuestao (){
     let me = this
-         me.$http.get(process.env.URL_API  + '/questao/getQuestaoByModulo/' + this.moduloSelecionado ).then(response => {
+         me.$http.get(process.env.URL_API  + '/questao/getProximaQuestaoByModulo/' + this.moduloSelecionado ).then(response => {
        
-        if (response) {
+        if (response && response.data && response.data !== "") {
           
-            let indice = Math.floor((Math.random() * response.data.length) + 1);
-            if (response.data.length == 1){
-              indice = 0;
-            }
-            var item = response.data[indice];
+            
+            var item = response.data;
             this.questao = item;
             this.imagem = 'data:image/png;base64,' + item.imagemQuestao.content
             this.tipoPergunta = item.tipoQuestao
             this.respostaCerta = item.resposta
            
           
+        }else{
+           Dialog.create({
+                    title: 'Alerta',
+                    message: 'Modulo está sem questões cadastradas... Selecione outro.'
+                  })
+           me.moduloSelecionado = null     
         }
   }, response => {
    
@@ -187,8 +190,8 @@ export default {
       }
       me.$http.post(process.env.URL_API  + '/questao/respostaUsuario/', param).then(response => {
       
-        if (response && response.data) {
-         
+        if (response && response.data && response.data != "") {
+        
             var item = response.data;
             this.questao = item;
             this.imagem = 'data:image/png;base64,' + item.imagemQuestao.content
@@ -196,6 +199,12 @@ export default {
             this.respostaCerta = item.resposta
             this.resposta = '';
            
+        }else{
+           Dialog.create({
+                    title: 'Alerta',
+                    message: 'Modulo está sem questões cadastradas... Selecione outro.'
+                  })
+           me.moduloSelecionado = null       
         }
   }, response => {
    

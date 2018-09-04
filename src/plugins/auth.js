@@ -4,12 +4,17 @@ import { Dialog } from 'quasar'
 export default ({ Vue, router }) => {
   let me = this;
   let toLogout = function (next, to) {
+   
+    if (to){
     next({
       path: '/logout',
       query: {
         redirect: to.fullPath
       }
     })
+  }else{
+    localStorage.clear();
+  }
   }
 
   let guardaUsuario = function(user){
