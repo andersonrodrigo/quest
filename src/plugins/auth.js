@@ -33,12 +33,14 @@ export default ({ Vue, router }) => {
       }else
         toLogout(next, to)
     } else if (to.meta.requiresAuth && token) {
+      try{
       var getUser = new Promise(function (resolve, reject) {
         Vue.axios.get(process.env.URL_API +  '/auth/user')
           .then((response) => {
             resolve(response.data)
           })
           .catch(error => {
+          
             reject(error)
           })
       })
@@ -53,8 +55,12 @@ export default ({ Vue, router }) => {
       }).catch(erro => {
         toLogout();
       })
+    }catch(e){
+      toLogout();
+    }
     } else {
       next()
     }
+  
   })
 }

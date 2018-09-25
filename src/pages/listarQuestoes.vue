@@ -186,7 +186,8 @@ export default {
         usuario:{id: usuario[0].id},
         resposta: me.resposta,
         respostaCerta: me.respostaCerta,
-        questao : {id: me.questao.id}
+        questao : {id: me.questao.id},
+        idModulo: me.moduloSelecionado
       }
       me.$http.post(process.env.URL_API  + '/questao/respostaUsuario/', param).then(response => {
       
