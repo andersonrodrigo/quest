@@ -43,7 +43,7 @@
 </div>
 
 
-<q-modal v-model="abreAlertaSalvo" :content-css="{minWidth: '80vw', minHeight: '80vh'}">
+<q-modal v-model="abreAlertaSalvo" :content-css="{minWidth: '20vw', minHeight: '20vh'}">
   <q-modal-layout>
     <q-toolbar slot="header">
        

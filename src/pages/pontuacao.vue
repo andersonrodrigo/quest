@@ -27,21 +27,18 @@ export default {
    mounted () {
     let me = this
     let usuario = JSON.parse(localStorage.getItem('user'));
- debugger
-me.usuarioLogado = usuario[0];
-let param = {
-    id: me.usuarioLogado.id
-}
- me.$http.post(process.env.URL_API +  '/questao/pontuacao', param).then((response) => {
-        
-             if (response) {
-                 me.erradas = response.data.erradas;
-                 me.certas = response.data.certas;
-              }
-          })
-          .catch(error => {
+    me.usuarioLogado = usuario[0];
+    let param = {
+        id: me.usuarioLogado.id
+    }
+    me.$http.post(process.env.URL_API +  '/questao/pontuacao', param).then((response) => {
+      if (response) {
+          me.erradas = response.data.erradas;
+          me.certas = response.data.certas;
+      }
+    }).catch(error => {
                 
-          })
+    })
 
 
   }
