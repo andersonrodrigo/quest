@@ -18,11 +18,29 @@
 <q-field v-if="tipoPergunta == 'M'"
     label="Qual é a resposta Certa?"
     >
-      <q-radio v-model="resposta"  val="A" label="A" /><BR/>
+
+  <q-btn-toggle
+  v-model="resposta"
+  color="amber"
+  text-color="black"
+  toggle-color="primary"
+     rounded
+          glossy
+  :options="[
+    {label: 'A', value: 'A'},
+    {label: 'B', value: 'B'},
+    {label: 'C', value: 'C'},
+    {label: 'D', value: 'D'},
+    {label: 'E', value: 'E'},
+    {label: 'F', value: 'F'}
+  ]"
+/>
+
+      <!--q-radio v-model="resposta"  val="A" label="A" /><BR/>
       <q-radio v-model="resposta"   val="B" label="B" /><BR/>
       <q-radio v-model="resposta"   val="C" label="C" /><BR/>
       <q-radio v-model="resposta"   val="D" label="D" /><BR/>
-      <q-radio v-model="resposta"   val="E" label="E" /><BR/>
+      <q-radio v-model="resposta"   val="E" label="E" /><BR/-->
 
 </q-field>
  <BR/>
@@ -43,18 +61,12 @@
 </div>
 
 
-<q-modal v-model="abreAlertaSalvo" :content-css="{minWidth: '20vw', minHeight: '20vh'}">
+<q-modal v-model="abreAlertaSalvo" :content-css="{minWidth: '20vw', minHeight: '10vh'}">
   <q-modal-layout>
     <q-toolbar slot="header">
        
       <q-toolbar-title>
-        Atenção
-      </q-toolbar-title>
-    </q-toolbar>
-
-    <q-toolbar slot="footer">
-      <q-toolbar-title>
-        
+        Resultado
       </q-toolbar-title>
     </q-toolbar>
 

@@ -29,11 +29,27 @@
 <q-field v-if="tipoResposta == 'M'"
     label="Resposta Certa"
     >
-      <q-radio v-model="resposta"  val="A" label="A" /><BR/>
+      <!--q-radio v-model="resposta"  val="A" label="A" /><BR/>
       <q-radio v-model="resposta"   val="B" label="B" /><BR/>
       <q-radio v-model="resposta"   val="C" label="C" /><BR/>
       <q-radio v-model="resposta"   val="D" label="D" /><BR/>
-      <q-radio v-model="resposta"   val="E" label="E" /><BR/>
+      <q-radio v-model="resposta"   val="E" label="E" /><BR/-->
+        <q-btn-toggle
+  v-model="resposta"
+  color="amber"
+  text-color="black"
+     rounded
+          glossy
+  toggle-color="primary"
+  :options="[
+    {label: 'A', value: 'A'},
+    {label: 'B', value: 'B'},
+    {label: 'C', value: 'C'},
+    {label: 'D', value: 'D'},
+    {label: 'E', value: 'E'},
+    {label: 'F', value: 'F'}
+  ]"
+/>
 
 </q-field>
  <BR/>
