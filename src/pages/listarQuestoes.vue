@@ -175,17 +175,23 @@ export default {
         return
       }
       if (this.resposta == this.respostaCerta){
-        this.mensagemAlerta='Resposta Certa'
+        this.mensagemAlerta='Resposta Certa!!'
       }else{
         let respCerta = '';
-        if (this.respostaCerta == 'V'){
-          respCerta = 'Certo'
-        }else if (this.respostaCerta == 'F'){
-          respCerta = 'Errado'
+        if (this.tipoPergunta == 'V') {
+          if (this.respostaCerta == 'V'){
+            respCerta = 'Certo / Verdadeiro'
+          }else if (this.respostaCerta == 'F'){
+            respCerta = 'Errado / Falso'
+          }
         }else{
           respCerta = this.respostaCerta
         }
-        this.mensagemAlerta='Resposta Errada... A certa é ' + respCerta;
+        if (this.tipoPergunta == 'M') {
+          this.mensagemAlerta='Resposta Errada... A opção Correta é: ' + respCerta;
+        } else{
+          this.mensagemAlerta='Resposta Errada... A certa seria:' + respCerta;
+        }
       }
       this.abreAlertaSalvo = true;
     },
